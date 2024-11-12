@@ -23,7 +23,7 @@ const Register = () => {
  const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues:{
-      username: "",
+      name: "",
       email: "",
       password: ""
     }
@@ -43,8 +43,8 @@ const Register = () => {
     })
 
  const onSubmit = (values: z.infer<typeof registerSchema>)=> {
-      const {username,email,password} = values;
-        execute({username,email,password})
+      const {name,email,password} = values;
+        execute({name,email,password})
  }
   return (
     <AuthForm formTitle='Register new account' 
@@ -54,7 +54,7 @@ const Register = () => {
        <Form {...form}>
        <form onSubmit={form.handleSubmit(onSubmit)}>
        <div>
-          <FormField control={form.control} name="username" render={({field})=>(
+          <FormField control={form.control} name="name" render={({field})=>(
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
