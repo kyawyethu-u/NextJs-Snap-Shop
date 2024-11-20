@@ -32,6 +32,10 @@ const Register = () => {
  const {execute,status,result} = useAction(register,{
       onSuccess({data}) {
         form.reset();
+        if(data?.error){
+          toast.error(data.error)
+        }
+       if(data?.success){
         toast.success(data?.success,{
           action:{
             label: "Open Gmail",
@@ -39,6 +43,7 @@ const Register = () => {
             },
           },
         });
+       }
       }
     })
 
@@ -83,7 +88,8 @@ const Register = () => {
           )}/>
         </div>
         <Button className={cn("w-full mb-4",
-              status === "executing" && "animate-pulse")}>Register</Button>
+              status === "executing" && "animate-pulse")}
+              disabled={status === "executing"}>Register</Button>
        </form>
        </Form>
     </AuthForm>

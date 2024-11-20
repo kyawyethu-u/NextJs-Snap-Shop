@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { useAction } from 'next-safe-action/hooks';
 import { login } from '@/server/actions/login-action';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 const Login = () => {
   const form = useForm({
@@ -24,7 +25,17 @@ const Login = () => {
 
     }
   })
-  const {execute,status,result} = useAction(login)
+  const {execute,status,result} = useAction(login, {
+    onSuccess({data}) {
+      form.reset();
+      if(data?.error){
+        toast.error(data.error)
+      }
+     if(data?.success){
+      toast.success(data?.success);
+     }
+    }
+  })
 
   const onSubmit = (values : z.infer<typeof loginSchema>) =>{
       const {email,password} = values
@@ -59,7 +70,9 @@ const Login = () => {
               </Button>
             </div>
             <Button className={cn("w-full mb-4",
-              status === "executing" && "animate-pulse")}>Login</Button>
+              status === "executing" && "animate-pulse")}
+              disabled={status === "executing"}>
+                Login</Button>
         </form>
           
         </Form>
