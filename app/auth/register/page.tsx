@@ -53,7 +53,7 @@ const Register = () => {
  }
   return (
     <AuthForm formTitle='Register new account' 
-    footerHerf='/auth/login'
+    footerHref='/auth/login'
     footerLabel='Already have an account?'
     showProvider>
        <Form {...form}>

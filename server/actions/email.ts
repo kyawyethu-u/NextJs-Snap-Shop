@@ -2,6 +2,7 @@
 import {getBaseUrl} from "@/lib/get-baseUrl"
 import {Resend} from "resend"
 import EmailConfirmationTemplate from "@/components/email-template";
+import resetPasswordEmail from "@/components/password-reset-email-template";
 
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -25,5 +26,23 @@ export const sendEmail = async(email:string,token:string,userFirstname: string) 
               }
             };
 
+
+ export const sendPasswordResetEmail = async(email:string,token:string) =>{
+         const resetLink = `${currentBaseUrl}/change-password?token=${token}`
         
-   
+         const { data, error } = await resend.emails.send({
+                        from: 'onboarding@resend.dev',
+                        to: email,
+                        subject: 'Reset your account - Welcome to SnapShop',
+                        react: resetPasswordEmail({
+                                resetPasswordLink: resetLink
+                        })
+                      });
+                    
+                      if (error) {
+                       console.log(error);
+                      }
+                    };
+        
+                
+           

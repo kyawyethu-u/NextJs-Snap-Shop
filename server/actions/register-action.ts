@@ -10,7 +10,8 @@ import { users } from "../schema"
 import { generateEmailVerificationToken } from "./token"
 import { sendEmail } from "./email"
 
-export const register = actionClient.schema(registerSchema)
+export const register = actionClient
+        .schema(registerSchema)
         .action(async({parsedInput: {name,email,password}})=>{
             console.log("I am server action =>",name,email,password)
             const hashedPassword = await bcrypt.hash(password,10)

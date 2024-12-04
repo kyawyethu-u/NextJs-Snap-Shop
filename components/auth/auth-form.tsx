@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import ProviderLogin from "./provider-login"
 import AuthFooter from "./auth-footer"
 
@@ -9,18 +9,19 @@ type AuthFormProps = {
     formTitle: string,
     showProvider: boolean,
     footerLabel: string,
-    footerHerf: string
+    footerHref: string
 }
 
-const AuthForm = ({children,formTitle,showProvider,footerLabel,footerHerf} : AuthFormProps) => {
+const AuthForm = ({children,formTitle,showProvider,footerLabel,footerHref} : AuthFormProps) => {
   return (
     <Card>
-        <CardHeader>{formTitle}</CardHeader>
+        <CardHeader>
+         <CardTitle>{formTitle}</CardTitle>
+          </CardHeader>
         <CardContent>{children} {showProvider && <ProviderLogin/> }</CardContent>
         <CardFooter>
-        
-        <AuthFooter footerLabel={footerLabel} footerHerf={footerHerf} />
-        </CardFooter>   
+        <AuthFooter footerLabel={footerLabel} footerHerf={footerHref} />
+        </CardFooter>
     </Card>
   )
 }

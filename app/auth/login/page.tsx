@@ -44,9 +44,9 @@ const Login = () => {
 
   return (
     <AuthForm formTitle='Login to your account' 
-    footerLabel="Don't have an account" 
-    footerHerf='/auth/register'
-    showProvider >
+       footerLabel="Don't have an account" 
+       footerHref='/auth/register'
+       showProvider >
         <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
         <div>
@@ -68,7 +68,7 @@ const Login = () => {
               <Button size={"sm"} variant={"link"} className='pl-0 mb-1'>
                 <Link href={"/auth/reset"}>Forget Password</Link>
               </Button>
-            </div>
+        </div>
             <Button className={cn("w-full mb-4",
               status === "executing" && "animate-pulse")}
               disabled={status === "executing"}>

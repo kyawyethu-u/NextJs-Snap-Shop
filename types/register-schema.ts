@@ -1,5 +1,3 @@
-
-
 import * as z from "zod"
 
 export const registerSchema = z.object({
@@ -10,6 +8,6 @@ export const registerSchema = z.object({
         message: "Please enter valid email!"
     }),
     password: z.string().min(5,{
-        message: "Please enter valid password!"
+        message: "Password must be at least 4 character"
     })
 })

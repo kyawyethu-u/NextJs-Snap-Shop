@@ -30,7 +30,7 @@ const UserButton = ({user}: Session) => {
       </DropdownMenuTrigger>
      
       <DropdownMenuContent align="end">
-      <div className="flex gap-2 p-4 border-2 border-black/10 rounded-lg items-center mb-4 cursor-pointer
+      <div className="flex gap-2 p-4 border-2 border-black/10 git rounded-lg items-center mb-4 cursor-pointer
            hover:scale-95 transition-all duration-300 ">
         <Avatar>
           <AvatarImage src={user.image!}/>
