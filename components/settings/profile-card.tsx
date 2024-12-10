@@ -1,6 +1,6 @@
 "use client"
 import { Session } from 'next-auth'
-import React from 'react'
+import React, { useState } from 'react'
 import SettingsCard from './settings-card'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
@@ -30,6 +30,7 @@ import {
 
 import { Button } from '../ui/button'
 import useMediaQuery from '@/hooks/useMediaQuery'
+import ProfileForm from './profile-form'
 
 
 
@@ -40,7 +41,10 @@ type ProfileCardProps ={
 const ProfileCard = ({session}: ProfileCardProps) => {
   const isDesktop = useMediaQuery("(min-width: 768px)")
  
-  
+  const [isOpen,setIsOpen] = useState(false);
+  const handleisOpen = () =>{
+    setIsOpen(false);
+  }
 
   return (<SettingsCard>
     <div className='flex items-start gap-2 justify-between'>
@@ -58,7 +62,7 @@ const ProfileCard = ({session}: ProfileCardProps) => {
     </div>
     
   {
-    isDesktop ? <Dialog>
+    isDesktop ? <Dialog open={isOpen} onOpenChange={setIsOpen}>
     <DialogTrigger asChild>
     <UserRoundPen className='w-5 h-5 text-muted-foreground hover:text-black cursor-pointer'/>
     </DialogTrigger>
@@ -67,25 +71,36 @@ const ProfileCard = ({session}: ProfileCardProps) => {
         <DialogTitle>Edit profile</DialogTitle>
         <DialogDescription>This will be your public display name.</DialogDescription>
       </DialogHeader>
-      <DialogFooter>
-         <DialogClose asChild>
-         <Button variant={'outline'}>Cancel</Button>
+      <ProfileForm 
+      name={session.user?.name!} 
+      email={session.user?.email!}
+      setIsOpen = {handleisOpen}
+      />
+      
+     
+         <DialogClose >
+         <Button variant={'outline'} className='w-full'>Cancel</Button>
          </DialogClose>
-      </DialogFooter>
+      
     </DialogContent>
     </Dialog> : 
-    <Drawer>
-    <DrawerTrigger><UserRoundPen className='w-5 h-5 text-muted-foreground hover:text-black cursor-pointer'/>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+    <DrawerTrigger asChild>
+      <UserRoundPen className='w-5 h-5 text-muted-foreground hover:text-black cursor-pointer'/>
     </DrawerTrigger>
     <DrawerContent>
       <DrawerHeader>
         <DrawerTitle>Edit profile</DrawerTitle>
         <DrawerDescription>This will be your public display name.</DrawerDescription>
       </DrawerHeader>
+      <ProfileForm 
+      name={session.user?.name!} 
+      email={session.user?.email!}
+      setIsOpen={handleisOpen}/>
+      
       <DrawerFooter>
-       
-        <DrawerClose>
-          <Button variant="outline">Cancel</Button>
+        <DrawerClose asChild>
+          <Button variant="outline" className='w-full'>Cancel</Button>
         </DrawerClose>
       </DrawerFooter>
     </DrawerContent>

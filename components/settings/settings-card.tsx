@@ -10,8 +10,9 @@ import { Card,
 type SettingsCardProps = {
     children: React.ReactNode,
     title?: string,
-    description?:string
+    description?:string  
 }
+// ? mean optional
 
 const SettingsCard = ({children,title,description} : SettingsCardProps) => {
   return (

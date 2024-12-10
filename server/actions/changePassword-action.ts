@@ -40,6 +40,7 @@ export const changePasswordAction = actionClient
                 await context.update(users).set({password: hashedPassword}).where(eq(users.id,existingUser.id));
                 await context.delete(resetPasswordToken).where(eq(resetPasswordToken.id,existingToken.id))
             });
+                
                 return {success: "Password Changed!"}
             })
             

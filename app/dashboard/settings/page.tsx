@@ -17,8 +17,12 @@ const Settings =async () => {
         <ProfileCard session={session} />
     </div>
     <div className='space-y-4 flex-1'>
-        <ChangePassword/>
+       
+       {
+        !session.user.isOath && (<><ChangePassword email={session.user.email!}/>
         <TwoFactor/>
+        </>) 
+       }
     </div>
   </main>
   </SettingsCard>)

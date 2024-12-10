@@ -22,7 +22,6 @@ const Login = () => {
     defaultValues : {
       email: "",
       password: "",
-
     }
   })
   const {execute,status,result} = useAction(login, {
