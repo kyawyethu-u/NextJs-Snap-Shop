@@ -17,6 +17,8 @@ import { changePasswordSchema } from '@/types/change-password-schema'
 import { changePasswordAction } from '@/server/actions/changePassword-action'
 import { useSearchParams } from 'next/navigation'
 
+import {signOut} from "next-auth/react"
+
 const changePassword = () =>{
   const form=useForm({
     resolver: zodResolver(changePasswordSchema),
@@ -34,6 +36,7 @@ const changePassword = () =>{
         toast.error(data?.error)
       }
       if(data?.success){
+        signOut({callbackUrl: "/auth/login"})
         toast.success(data.success,{
           action: {
             label: "Open Gmail",

@@ -3,6 +3,7 @@ import {getBaseUrl} from "@/lib/get-baseUrl"
 import {Resend} from "resend"
 import EmailConfirmationTemplate from "@/components/email-template";
 import resetPasswordEmail from "@/components/password-reset-email-template";
+import twoFactorCodeEmail from "@/components/two-factor-email";
 
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -43,6 +44,22 @@ export const sendEmail = async(email:string,token:string,userFirstname: string) 
                        console.log(error);
                       }
                     };
+
+ export const sendTwoFactorEmail = async(email:string,code:string) =>{
+                 
+        const { data, error } = await resend.emails.send({
+                from: 'onboarding@resend.dev',
+                to: email,
+                subject: 'Two Factor Authentication Code - SnapShop',
+                react: twoFactorCodeEmail({
+                  code,
+                })
+                });
+                
+                if (error) {
+                console.log(error);
+                }
+                };                   
         
                 
            

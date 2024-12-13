@@ -1,3 +1,4 @@
+
 import ChangePassword from '@/components/settings/change-password'
 import ProfileCard from '@/components/settings/profile-card'
 import SettingsCard from '@/components/settings/settings-card'
@@ -19,8 +20,11 @@ const Settings =async () => {
     <div className='space-y-4 flex-1'>
        
        {
-        !session.user.isOath && (<><ChangePassword email={session.user.email!}/>
-        <TwoFactor/>
+        !session.user.isOath && 
+        (<><ChangePassword email={session.user.email!}/>
+        <TwoFactor 
+        isTwoFactorEnabled={session.user.isTwoFactorEnabled}
+        email={session.user.email!}/>
         </>) 
        }
     </div>

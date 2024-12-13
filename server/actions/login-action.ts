@@ -4,16 +4,16 @@ import { loginSchema } from "@/types/login-schema"
 import { actionClient } from "./safe-action"
 import { db } from ".."
 import { eq } from "drizzle-orm"
-import { users } from "../schema"
-import { generateEmailVerificationToken } from "./token"
-import { sendEmail } from "./email"
+import { twoFactorTokens, users } from "../schema"
+import { checkTwoFactorCodeByEmail, generateEmailVerificationToken, generateTwoFactorCode } from "./token"
+import { sendEmail, sendTwoFactorEmail } from "./email"
 import { signIn } from "../auth"
 import { AuthError } from "next-auth"
 
 export const login = actionClient
 .schema(loginSchema)
 .action(async({
-    parsedInput:{email,password}})=>{
+    parsedInput:{email,password,code}})=>{
         try{
             //check email
             const existingUser = await db.query.users.findFirst({where: eq(users.email,email)});
@@ -29,6 +29,29 @@ export const login = actionClient
                 )
             return {success: "Email verification resent!"}
             };
+            if(existingUser.isTwoFactorEnabled){
+                if(code){
+                    const twoFactorCode = await checkTwoFactorCodeByEmail(existingUser.email)
+                    if(!twoFactorCode){
+                        return {error: "Invalid Code"}
+                    }
+                    if(code !== twoFactorCode.token){
+                        return {error: "Invalid Code"}
+                    }
+                const isExpired = new Date(twoFactorCode.expires) < new Date();
+                if(isExpired){
+                    return {error: "Expired Code"}}
+                    await db.delete(twoFactorTokens).where(eq(twoFactorTokens.id,twoFactorCode.id))
+                }else{
+                    const twoFactorCode = await generateTwoFactorCode(existingUser.email)
+                    if(!twoFactorCode){
+                        return {error: "Failed to generate two factor code"}
+                    }
+                await sendTwoFactorEmail(twoFactorCode[0].email,twoFactorCode[0].token)
+                return {twoFactor: "Two factor code sent!"}
+                }
+                
+            }
             //login begin
             await signIn("credentials",{
                 email,

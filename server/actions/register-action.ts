@@ -29,7 +29,7 @@ export const register = actionClient
                         verificationToken[0].token,
                         name.slice(0,5)
                     )
-                    return {success: "Email verification resent!"}
+                    return {success: "Email verification sent!"}
                 }
                 return {error: "Email is already exist"}
             } 
