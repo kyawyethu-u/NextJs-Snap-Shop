@@ -55,8 +55,10 @@ const ProfileCard = ({session}: ProfileCardProps) => {
       image={session.user.image} 
       email={session.user.email!}/>
       <div>
-      <h2 className='font-semibold text-lg'>{session.user?.name}</h2>
-      <p className='text-sm font-medium text-muted-foreground'>{session.user?.email}</p>
+       <p className='text-sm font-medium text-muted-foreground'>Display Name</p>
+      <h2 className='font-semibold text-lg'>@{session.user?.name}</h2>
+      <p className='text-sm font-medium text-muted-foreground mr-2'>Email:</p>
+      <p className='text-base font-medium '>{session.user?.email}</p>
       </div>
     </div>
     
