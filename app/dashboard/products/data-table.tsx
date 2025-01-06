@@ -5,6 +5,11 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  ColumnFiltersState,
+  getFilteredRowModel,
+  SortingState,
+  getPaginationRowModel,
+
 } from "@tanstack/react-table"
 
 import {
@@ -15,6 +20,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -24,15 +35,37 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting,setSorting] =useState<SortingState>([]);
+  const [columnFilters,setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange : setColumnFilters,
+    getFilteredRowModel : getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      sorting,
+      columnFilters
+    }
   })
 
   return (
-    <div className="rounded-md border">
-      <Table>
+      <Card>
+        <CardHeader>
+          <CardTitle>Products</CardTitle>
+          <CardDescription>View your own products</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-2 mb-6">
+             <SlidersHorizontal className="fill-primary text-primary"/>
+             <Input placeholder="Filter your product with title"
+              value={table.getColumn("title")?.getFilterValue() as string ?? ""}
+              onChange={(e)=>table.getColumn("title")?.setFilterValue(e.target.value)}
+              />
+          </div>
+        <div className="rounded-md border">
+        <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -75,5 +108,19 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
     </div>
+    <div className="flex items-center justify-end gap-2 my-5">
+      <Button onClick={()=> table.previousPage()}
+       disabled={!table.getCanPreviousPage()} variant={"outline"}>
+       <ChevronLeft className="w-5 h-5 mr-1"/>
+       Previous
+      </Button>
+      <Button onClick={()=> table.nextPage()}
+       disabled={!table.getCanNextPage()} variant={"outline"}>
+        <ChevronRight className="w-5 h-5 mr-1"/>
+        Next
+      </Button>
+    </div>
+        </CardContent>
+      </Card>
   )
 }
