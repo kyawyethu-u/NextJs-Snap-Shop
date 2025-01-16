@@ -43,6 +43,13 @@
       "when": 1734420004880,
       "tag": "0005_legal_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1736161358661,
+      "tag": "0006_chemical_bulldozer",
+      "breakpoints": true
     }
   ]
 }

@@ -23,11 +23,11 @@ const DashboardNavigation = ({routes}: DashboardNavigationProps) => {
       {routes.map((route,index)=>(
         <Link href={route.path} key={index}>
           <span className={cn("flex items-center gap-1 text-gray-400 font-medium text-sm",
-            pathname === route.path && "text-primary text-base font-bold" 
+            pathname === route.path && "text-white bg-primary px-2 py-1 rounded-md" 
           )}>
             {route.icons}
             {route.label}
-            {index !== routes.length-1 && "|"}
+           
           </span>
         </Link>
       ))}

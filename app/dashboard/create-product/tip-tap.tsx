@@ -13,8 +13,7 @@ type TiptapProps ={
 const Tiptap = ({val}: TiptapProps) => {
   const {setValue} = useFormContext()
   const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
+    extensions: [StarterKit.configure({
       orderedList: {
         HTMLAttributes: {class: "List-decimal pl-4"}
       },
